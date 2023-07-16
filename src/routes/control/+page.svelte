@@ -21,10 +21,10 @@
 	let activeTab = 'App Store';
 
 	import logo from '$lib/assets/download.svg';
-	import TabSelector from '$lib/components/control-panel/TabSelector.svelte';
-	import AppStoreTab from '$lib/components/control-panel/tabs/AppStoreTab.svelte';
-	import DataTab from '$lib/components/control-panel/tabs/DataTab.svelte';
-	import ProxyTab from '$lib/components/control-panel/tabs/ProxyTab.svelte';
+	import TabSelector from '$lib/components/TabSelector.svelte';
+	import AppStoreTab from '$lib/components/tabs/AppStoreTab.svelte';
+	import DataTab from '$lib/components/tabs/DataTab.svelte';
+	import ProxyTab from '$lib/components/tabs/ProxyTab.svelte';
 
     // TODO: Make it part of state
 	let advancedAccessControl = false;
@@ -33,7 +33,7 @@
 <TabSelector {activeTab} />
 <div class="w-auto flex flex-col items-center py-2">
 	{#if activeTab === 'App Store'}
-		<AppStoreTab {appStoreApps} />
+		<AppStoreTab/>
 	{:else if activeTab === 'Data'}
 		<DataTab {authDatas} {dynamicAccess} />
 	{:else}

@@ -12,7 +12,7 @@ export async function loadState() {
 }
 
 export async function saveData(dataToSave) {
-    let res: Response = await fetch('http://localhost:3000?save=1', {
+    let res: Response = await fetch('http://localhost:3001?save=1', {
         method: 'POST',
         body: JSON.stringify(dataToSave),
         headers: { 'Content-Type': 'application/json' }
@@ -21,7 +21,7 @@ export async function saveData(dataToSave) {
 }
 
 export async function loadData() {
-    let rawRes: Response = await fetch('http://localhost:3000', {
+    let rawRes: Response = await fetch('http://localhost:3001', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
     });

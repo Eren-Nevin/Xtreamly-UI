@@ -1,14 +1,15 @@
 <script lang="ts">
 	import logo from '$lib/assets/metamask_logo.png';
 	import Icon from 'svelte-awesome';
-	import beer from 'svelte-awesome/icons/ellipsisV';
+	import ellipsisV from 'svelte-awesome/icons/ellipsisV';
 </script>
 
 <section class="w-full bg-gray-50">
 	<div class="flex flex-col">
 		<div class="flex flex-row items-center h-16 bg-gray-200 py-4">
 			<img src={logo} class="h-8 w-8 ml-4 mr-16" />
-			<button class="btn btn-outline rounded-full btn-sm border-gray-400 text-gray-600 text-[12px]">				Mainnet
+			<button class="btn btn-outline rounded-full btn-sm border-gray-400 text-gray-600 text-[12px]">
+				Mainnet
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					viewBox="0 0 20 20"
@@ -71,9 +72,9 @@
 				<p class="font-bold text-[12px]">Account 8</p>
 				<p class="font-bold text-[10px] text-gray-500">0x667...038D</p>
 			</div>
-			<Icon data={beer} class="ml-auto" />
+			<Icon data={ellipsisV} class="ml-auto" />
 		</div>
-        <div class="divider py-0 my-0 h-1"/>
+		<div class="divider py-0 my-0 h-1" />
 		<slot />
 	</div>
 </section>

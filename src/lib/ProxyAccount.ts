@@ -31,7 +31,10 @@ export class AppStoreApp {
         // This means publisher address
         public address: string,
         public description: string,
+        public shortDescription: string,
+        public rating: string,
         public code: string,
+        public updates: string,
     ) { }
 }
 

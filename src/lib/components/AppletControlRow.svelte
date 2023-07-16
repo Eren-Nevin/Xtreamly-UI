@@ -2,10 +2,13 @@
 	import type { AppStoreApp } from '$lib/ProxyAccount';
 	import logo from '$lib/assets/download.svg';
     export let app: AppStoreApp
+
+    export let selectedAppId: string;
 </script>
 
 <div
 	class="w-full flex flex-row mx-2 my-1 px-4 bg-gray-200 items-center rounded-md opacity-75 space-x-2"
+    on:click={() => {selectedAppId = app.id;}}
 >
 	<img src={app.logoUrl} class="w-10 h-10 my-2 mr-1" />
 	<div class="h-20 flex flex-auto flex-col my-2 justify-center">

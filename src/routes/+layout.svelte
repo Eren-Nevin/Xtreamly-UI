@@ -26,15 +26,14 @@
 	proxies.set([]);
 	appStoreApps.set([]);
 	dynamicAccess.set(new DynamicAccess(''));
-	// onMount(async () => {
-	// 	const loadedAppData = await loadState();
-	// 	dapps.set(loadedAppData.dapps);
-	// 	authDatas.set(loadedAppData.authDatas);
-	// 	proxies.set(loadedAppData.proxyAccounts);
-	// 	appStoreApps.set(loadedAppData.appStoreApps);
-	// 	dynamicAccess.set(loadedAppData.dynamicAccess);
-	// });
-	//
+	onMount(async () => {
+		const loadedAppData = await loadState();
+		dapps.set(loadedAppData.dapps);
+		authDatas.set(loadedAppData.authDatas);
+		proxies.set(loadedAppData.proxyAccounts);
+		appStoreApps.set(loadedAppData.appStoreApps);
+		dynamicAccess.set(loadedAppData.dynamicAccess);
+	});
 	setContext('dapps', dapps);
 	setContext('authDatas', authDatas);
 	setContext('proxies', proxies);
