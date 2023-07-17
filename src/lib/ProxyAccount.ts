@@ -24,17 +24,19 @@ export class DApp {
 
 export class AppStoreApp {
     constructor(
-        public id: string,
+        public uid: string,
         public name: string,
+        public owner: string,
+        public developer: string,
         public url: string,
         public logoUrl: string,
-        // This means publisher address
-        public address: string,
         public description: string,
         public shortDescription: string,
         public rating: string,
         public code: string,
         public updates: string,
+        public installNotes: string,
+        public uninstallNotes: string
     ) { }
 }
 
@@ -50,10 +52,12 @@ export class ProxyAccount {
 
     constructor(
         public uid: string,
+        public name: string,
         public status: string,
-        public code: string,
-        public program: string,
-        public delegations: Delegation[]) { }
+        public mnemonica: string,
+        public createdData: string,
+        public appId: string,
+    ) { }
 }
 
 export class Delegation {

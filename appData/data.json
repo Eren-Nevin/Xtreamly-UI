@@ -30,19 +30,11 @@
     "proxyAccounts": [
         {
             "uid": "0x1918231b6E2c8A59A9fe4FF8B5f950856e821afF",
+            "name": "Best Proxy",
             "status": "Running",
-            "code": "#name=\"Fixed SHIBA Position\"\n\nif (SHIBA.price > 0.00000001 * USDT) {\n\texchange(SHIBA, USDT, 10 ** 8);\n}\n\nelse if (SHIBA.price < 0.000000007 USDT) {\n\texchange(USDT, SHIBA, 10);\n}\n\t",
-            "program": "Fixed SHIBA Position",
-            "delegations": [
-                {
-                    "token": "USDT",
-                    "amount": "50"
-                },
-                {
-                    "token": "SHIBA",
-                    "amount": "100"
-                }
-            ]
+            "mnemonica": "",
+            "createdDate": "",
+            "appId": "app:xtreamly:123"
         }
     ],
     "dapps": [
@@ -54,8 +46,9 @@
     ],
     "appStoreApps": [
         {
-            "id": "app:xtreamly:123",
+            "uid": "app:xtreamly:123",
             "name": "Axie Subscription",
+            "owner": "user123",
             "url": "axie-infinity.com",
             "logoUrl": "https://cryptologos.cc/logos/axie-infinity-axs-logo.png?v=025",
             "address": "0xbA64D3efa33776Cc5d7593Dc5C91B38f9Ea790C0",
@@ -66,8 +59,9 @@
             "code": "#name='axie subscription'\n    #run_interval('0y:1m:0w:0d:0h:0m:0s')\n\n    let dappAddress = '0xbA64D3efa33776Cc5d7593Dc5C91B38f9Ea790C0'\n\n    let res = await send_erc20(USDT, 38, dappAddress);\n\n    if (res) {\n            return True;\n    }\n    else {\n            return False;\n    }\n    "
         },
         {
-            "id": "app:xtreamly:456",
+            "uid": "app:xtreamly:456",
             "name": "Axie Subscription",
+            "owner": "user123",
             "url": "axie-infinity.com",
             "logoUrl": "https://cryptologos.cc/logos/axie-infinity-axs-logo.png?v=025",
             "address": "0xbA64D3efa33776Cc5d7593Dc5C91B38f9Ea790C0",
@@ -78,8 +72,9 @@
             "code": "#name='axie subscription'\n    #run_interval('0y:1m:0w:0d:0h:0m:0s')\n\n    let dappAddress = '0xbA64D3efa33776Cc5d7593Dc5C91B38f9Ea790C0'\n\n    let res = await send_erc20(USDT, 56, dappAddress);\n\n    if (res) {\n            return True;\n    }\n    else {\n            return False;\n    }\n    "
         },
         {
-            "id": "app:xtreamly:789",
+            "uid": "app:xtreamly:789",
             "name": "Escrow Service",
+            "owner": "user123",
             "url": "screw.vim",
             "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/EmacsIcon.svg/1024px-EmacsIcon.svg.png",
             "address": "0xbA64D3efa33776Cc5d7593Dc5C91B38f9Ea790C0",

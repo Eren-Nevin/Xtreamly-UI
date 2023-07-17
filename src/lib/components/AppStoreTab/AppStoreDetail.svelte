@@ -32,7 +32,7 @@
 		<div class="w-full flex flex-row justify-start">
             <!-- TODO: Make logo urls to point to app store logo sizes (rounded corners) -->
 			<div class="w-24 h-24 bg-gray-100 rounded-2xl flex-shrink-0" >
-                <img src="{selectedApp.logoUrl}"/>
+                <img src="{selectedApp.logoUrl}" alt="Applet Logo"/>
             </div>
 			<div class="flex flex-col mx-4 w-full">
 				<span class="text-lg"> {selectedApp.name} </span>
