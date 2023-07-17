@@ -55,31 +55,31 @@
     "appStoreApps": [
         {
             "id": "app:xtreamly:123",
-            "name": "axie-subscription",
+            "name": "Axie Subscription",
             "url": "axie-infinity.com",
             "logoUrl": "https://cryptologos.cc/logos/axie-infinity-axs-logo.png?v=025",
             "address": "0xbA64D3efa33776Cc5d7593Dc5C91B38f9Ea790C0",
             "description": "A subscription for 38 USDT per month to axie infinity game",
-            "shortDescription": "Subscription for Axie Infinity",
+            "shortDescription": "Subscription for Axie",
             "rating": "4.3",
             "updates": "Fixed bugs",
             "code": "#name='axie subscription'\n    #run_interval('0y:1m:0w:0d:0h:0m:0s')\n\n    let dappAddress = '0xbA64D3efa33776Cc5d7593Dc5C91B38f9Ea790C0'\n\n    let res = await send_erc20(USDT, 38, dappAddress);\n\n    if (res) {\n            return True;\n    }\n    else {\n            return False;\n    }\n    "
         },
         {
             "id": "app:xtreamly:456",
-            "name": "axie-subscription",
+            "name": "Axie Subscription",
             "url": "axie-infinity.com",
             "logoUrl": "https://cryptologos.cc/logos/axie-infinity-axs-logo.png?v=025",
             "address": "0xbA64D3efa33776Cc5d7593Dc5C91B38f9Ea790C0",
             "description": "A subscription for 56 USDT per month to axie infinity game",
-            "shortDescription": "Subscription for Axie Infinity",
+            "shortDescription": "Subscription for Axie",
             "rating": "4.7",
             "updates": "Fixed bugs",
             "code": "#name='axie subscription'\n    #run_interval('0y:1m:0w:0d:0h:0m:0s')\n\n    let dappAddress = '0xbA64D3efa33776Cc5d7593Dc5C91B38f9Ea790C0'\n\n    let res = await send_erc20(USDT, 56, dappAddress);\n\n    if (res) {\n            return True;\n    }\n    else {\n            return False;\n    }\n    "
         },
         {
             "id": "app:xtreamly:789",
-            "name": "escrow-service",
+            "name": "Escrow Service",
             "url": "screw.vim",
             "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/EmacsIcon.svg/1024px-EmacsIcon.svg.png",
             "address": "0xbA64D3efa33776Cc5d7593Dc5C91B38f9Ea790C0",

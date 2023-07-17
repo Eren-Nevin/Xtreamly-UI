@@ -7,7 +7,7 @@
 
 	const appStoreApps = getContext<Writable<AppStoreApp[]>>('appStoreApps');
 
-	let selectedAppId = 'app:xtreamly:456';
+	let selectedAppId = '';
 </script>
 
 <div class="w-full flex flex-col items-center px-2">

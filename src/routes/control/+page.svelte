@@ -3,14 +3,14 @@
 	export let data: PageData;
 	import { getContext, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
-		import type {
+	import type {
 		ProxyAccount,
 		AuthData,
 		Delegation,
 		DApp,
 		DynamicAccess,
 		AppStoreApp
-	} from '$lib/ProxyAccount';;
+	} from '$lib/ProxyAccount';
 
 	const dapps = getContext<Writable<DApp[]>>('dapps');
 	const proxies = getContext<Writable<ProxyAccount[]>>('proxies');
@@ -26,14 +26,14 @@
 	import DataTab from '$lib/components/tabs/DataTab.svelte';
 	import ProxyTab from '$lib/components/tabs/ProxyTab.svelte';
 
-    // TODO: Make it part of state
+	// TODO: Make it part of state
 	let advancedAccessControl = false;
 </script>
 
-<TabSelector {activeTab} />
+<TabSelector bind:activeTab />
 <div class="w-auto flex flex-col items-center py-2">
 	{#if activeTab === 'App Store'}
-		<AppStoreTab/>
+		<AppStoreTab />
 	{:else if activeTab === 'Data'}
 		<DataTab {authDatas} {dynamicAccess} />
 	{:else}

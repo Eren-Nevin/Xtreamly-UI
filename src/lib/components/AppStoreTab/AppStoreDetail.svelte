@@ -28,8 +28,12 @@
 				Back
 			</button>
 		</div>
+
 		<div class="w-full flex flex-row justify-start">
-			<div class="w-24 h-24 bg-gray-700 rounded-2xl flex-shrink-0" />
+            <!-- TODO: Make logo urls to point to app store logo sizes (rounded corners) -->
+			<div class="w-24 h-24 bg-gray-100 rounded-2xl flex-shrink-0" >
+                <img src="{selectedApp.logoUrl}"/>
+            </div>
 			<div class="flex flex-col mx-4 w-full">
 				<span class="text-lg"> {selectedApp.name} </span>
 				<span class="text-xs font-light text-gray-400"> {selectedApp.shortDescription} </span>

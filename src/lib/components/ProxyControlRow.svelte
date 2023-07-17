@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { ProxyAccount } from '$lib/ProxyAccount';
 	export let proxy: ProxyAccount;
+
+    export let selectedProxyId: string;
 </script>
 
 <div class="collapse collapse-arrow bg-gray-200 m-1">
