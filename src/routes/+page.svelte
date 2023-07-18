@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { AceEditor } from "svelte-ace";
 	import { MetamaskHandler } from 'xtreamly_sdk';
 	import { PUBLIC_SNAP_ADDRESS } from '$env/static/public';
 	import { onMount } from 'svelte';
@@ -16,6 +17,8 @@
 	let userEmail = '';
 
 	let subscribed = false;
+
+    let text = ''
 
 	onMount(async () => {
 		window.onmessage = async function (e) {
@@ -101,18 +104,36 @@
 		<button
 			class="btn btn-primary {getButtonClass('snap', appState)}"
 			on:click={async () => {
-				const res = await metamaskHandler.connectToSnap('local:http://localhost:8090');
-				console.log(res);
-				if (res) {
-					appState = 'snap';
-					const snapRes = await metamaskHandler.callSnap(PUBLIC_SNAP_ADDRESS, SnapDialogMethod);
-					console.log(snapRes);
-					if (snapRes) {
-						userEmail = snapRes;
-						await openPopUpClickHandler();
-					}
-				}
+				await openPopUpClickHandler();
+				// NOTE: Should we use snap?
+				// const res = await metamaskHandler.connectToSnap('local:http://localhost:8090');
+				// console.log(res);
+				// if (res) {
+				// 	appState = 'snap';
+				// 	const snapRes = await metamaskHandler.callSnap(PUBLIC_SNAP_ADDRESS, SnapDialogMethod);
+				// 	console.log(snapRes);
+				// 	if (snapRes) {
+				// 		userEmail = snapRes;
+				// 		await openPopUpClickHandler();
+				// 	}
+				// }
 			}}>Install Xtreamly</button
 		>
+		<!-- <AceEditor -->
+			<!-- on:selectionChange={(obj) => console.log(obj.detail)} -->
+			<!-- on:paste={(obj) => console.log(obj.detail)} -->
+			<!-- on:input={(obj) => console.log(obj.detail)} -->
+			<!-- on:focus={() => console.log('focus')} -->
+			<!-- on:documentChange={(obj) => console.log(`document change : ${obj.detail}`)} -->
+			<!-- on:cut={() => console.log('cut')} -->
+			<!-- on:cursorChange={() => console.log('cursor change')} -->
+			<!-- on:copy={() => console.log('copy')} -->
+			<!-- on:init={(editor) => console.log(editor.detail)} -->
+			<!-- on:commandKey={(obj) => console.log(obj.detail)} -->
+			<!-- on:changeMode={(obj) => console.log(`change mode : ${obj.detail}`)} -->
+			<!-- on:blur={() => console.log('blur')} -->
+			<!-- width="100%" -->
+			<!-- height="300px" -->
+			<!-- lang="lua"/> -->
 	</div>
 </div>

@@ -14,7 +14,6 @@
 	} from '$lib/ProxyAccount';
 	import { saveState, loadState } from '$lib/db';
 
-
 	const dapps = writable<DApp[]>();
 	const authDatas = writable<AuthData[]>();
 	const proxies = writable<ProxyAccount[]>();
@@ -42,3 +41,7 @@
 </script>
 
 <slot />
+
+<svelte:head>
+	<title>Xtreamly Control Panel</title>
+</svelte:head>

@@ -33,14 +33,11 @@
 		}
 	};
 
-    const getDelegations = (proxy: ProxyAccount) => {
-    }
+	const getDelegations = (proxy: ProxyAccount) => {};
 
-    const getTokenBalances = (proxy: ProxyAccount) => {
-    }
+	const getTokenBalances = (proxy: ProxyAccount) => {};
 
-    const getEthBalance = (proxy: ProxyAccount) => {
-    }
+	const getEthBalance = (proxy: ProxyAccount) => {};
 
 	let proxyState: ProxyState;
 
@@ -73,7 +70,7 @@
 			{/if}
 			<h2>{proxy.status}</h2>
 		</div>
-        <!-- TODO: Query The Applet info -->
+		<!-- TODO: Query The Applet info -->
 		{#if proxy.appId}
 			<p class="text-xs font-light">
 				Applet: {proxy.appId}
@@ -87,7 +84,7 @@
 		<div class="divider my-1" />
 		<h2 class="">Delegations</h2>
 		<ul class="font-light list-disc my-2">
-            <!-- TODO: Get Balances And Delgations Info -->
+			<!-- TODO: Get Balances And Delgations Info -->
 			<!-- {#each proxy.delegations as delegation} -->
 			<!-- 	<li class="text-xs font-light ml-4"> -->
 			<!-- 		{`${delegation.token}: ${delegation.amount}`} -->
@@ -96,12 +93,12 @@
 		</ul>
 		<button class="btn btn-secondary btn-xs font-light mt-1">Change</button>
 		<div class="divider my-1" />
-        <!-- TODO: Query The Applet info -->
+		<!-- TODO: Query The Applet info -->
 		{#if proxy.appId}
-			<button
-				class="h-6 text-blue-700 text-sm ms-auto font-light normal-case p-0"
-				onclick="my_modal_3.showModal()">Show Code</button
-			>
+			<!-- <button -->
+			<!-- 	class="h-6 text-blue-700 text-sm ms-auto font-light normal-case p-0" -->
+			<!-- 	onclick="my_modal_3.showModal()">Show Code</button -->
+			<!-- > -->
 			<dialog id="my_modal_3" class="modal">
 				<form method="dialog" class="modal-box">
 					<button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4">✕</button>
@@ -114,7 +111,7 @@
 				</form>
 			</dialog>
 		{:else}
-            <!-- TODO: Send user to applet screen -->
+			<!-- TODO: Send user to applet screen -->
 			<button class="h-6 text-blue-700 text-sm ms-auto font-light normal-case p-0">
 				Install
 			</button>

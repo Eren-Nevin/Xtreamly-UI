@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import logo from '$lib/assets/metamask_logo.png';
 	import Icon from 'svelte-awesome';
 	import ellipsisV from 'svelte-awesome/icons/ellipsisV';
@@ -72,7 +73,14 @@
 				<p class="font-bold text-[12px]">Account 8</p>
 				<p class="font-bold text-[10px] text-gray-500">0x667...038D</p>
 			</div>
-			<Icon data={ellipsisV} class="ml-auto" />
+			<button
+				class="btn btn-xs ml-auto"
+				on:click={() => {
+					goto('../auth');
+				}}
+			>
+				<Icon data={ellipsisV} class="ml-auto" />
+			</button>
 		</div>
 		<div class="divider py-0 my-0 h-1" />
 		<slot />
