@@ -1,46 +1,11 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { login, signup, isLoggedIn, getAuthToken, logout, signupAndLogin } from '$lib/auth';
 
 	let email = '';
 	let password = '';
 
 	let loggingIn = false;
-
-	async function login(email: string, password: string) {
-		const res = await fetch('http://test.xtreamly.io:5001/api/v1/authentication/login', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				email: email,
-				password: password
-			})
-		});
-
-		if (res.status == 200) {
-			goto('../control');
-		}
-	}
-
-	async function signup(email: string, password: string) {
-		const res = await fetch('http://test.xtreamly.io:5002/api/v1/authentication/signup', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				email: email,
-				password: password
-			})
-		});
-
-		if (res.status == 200) {
-			goto('../control');
-		}
-	}
 </script>
 
 <div
@@ -69,13 +34,20 @@
 			bind:value={password}
 		/>
 	</div>
+    <!-- TODO: Add Error Handling -->
 	<button
 		class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-		on:click={() => {
+		on:click={async () => {
 			if (loggingIn) {
-				login(email, password);
+				const res = await login(email, password);
+                if (res) {
+                    goto('/control');
+                }
 			} else {
-				signup(email, password);
+				const res = await signupAndLogin(email, password);
+                if (res) {
+                    goto('/control');
+                }
 			}
 		}}
 	>

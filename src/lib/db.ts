@@ -1,6 +1,6 @@
-import { AppData, AuthData, ProxyAccount, Delegation, DApp, AppStoreApp, DynamicAccess } from '$lib/ProxyAccount';
+import { AppData, AuthData, ProxyAccount, Delegation, DApp, Applet, DynamicAccess } from '$lib/ProxyAccount';
 
-export async function saveState(authDatas: AuthData[], proxys: ProxyAccount[], dapps: DApp[], appStoreApps: AppStoreApp[], dynamicAccess: DynamicAccess) {
+export async function saveState(authDatas: AuthData[], proxys: ProxyAccount[], dapps: DApp[], appStoreApps: Applet[], dynamicAccess: DynamicAccess) {
     return await saveData(new AppData(authDatas, proxys, dapps, appStoreApps, dynamicAccess));
 }
 

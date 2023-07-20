@@ -2,8 +2,14 @@
 	import CodeEditor from '$lib/components/Editor/CodeEditor.svelte';
 </script>
 
-<div class="rounded-lg border-green-500 outline-red-600 m-4">
-    <CodeEditor/>
+<div class="w-full flex flex-col items-center justify-center">
+	<div class="w-9/12 border border-gray-400 rounded-xl p-9">
+		<CodeEditor />
+		<div class="flex flex-row justify-end my-2">
+			<button class="btn btn-primary btn-sm"> Install </button>
+		</div>
+	</div>
+
 	<!-- <button -->
 	<!-- 	class="h-6 text-blue-700 text-sm ms-auto font-light normal-case p-0" -->
 	<!-- 	onclick="my_modal_3.showModal()">Show Code</button -->

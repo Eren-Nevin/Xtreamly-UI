@@ -3,8 +3,31 @@
 	import logo from '$lib/assets/metamask_logo.png';
 	import Icon from 'svelte-awesome';
 	import ellipsisV from 'svelte-awesome/icons/ellipsisV';
+
+	import type {
+		ProxyAccount,
+		Applet,
+	} from '$lib/models';;
+	import { getContext, onMount } from 'svelte';
+	import { writable } from 'svelte/store';
+
+    const proxies = getContext<ProxyAccount[]>('proxies');
+    const applets = getContext<Applet[]>('applets');
+
+
+	onMount(async () => {
+		// const loadedAppData = await loadState();
+		dapps.set(loadedAppData.dapps);
+		authDatas.set(loadedAppData.authDatas);
+		proxies.set(loadedAppData.proxyAccounts);
+		appStoreApps.set(loadedAppData.appStoreApps);
+		dynamicAccess.set(loadedAppData.dynamicAccess);
+	});
 </script>
 
+<svelte:head>
+	<title>Xtreamly Control Panel</title>
+</svelte:head>
 <section class="w-full bg-gray-50">
 	<div class="flex flex-col">
 		<div class="flex flex-row items-center h-16 bg-gray-200 py-4">

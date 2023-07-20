@@ -32,7 +32,7 @@
 	on:changeMode={(obj) => console.log(`change mode : ${obj.detail}`)}
 	on:blur={() => console.log('blur')}
 	width="100%"
-	height="1000"
+	height="640"
 	lang="lua"
 	theme="gruvbox"
 	value={text}
