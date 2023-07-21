@@ -3,21 +3,21 @@
 </script>
 <div class="w-full tabs">
 	<a
-		class="tab w-1/3 tab-bordered {activeTab === 'Proxies' ? 'tab-active' : ''}"
+		class="tab w-1/2 tab-bordered {activeTab === 'Proxies' ? 'tab-active' : ''}"
 		on:click={() => {
 			activeTab = 'Proxies';
 		}}>Proxies</a
 	>
 	<a
-		class="tab w-1/3 tab-bordered {activeTab === 'App Store' ? 'tab-active' : ''}"
+		class="tab w-1/2 tab-bordered {activeTab === 'App Store' ? 'tab-active' : ''}"
 		on:click={() => {
 			activeTab = 'App Store';
 		}}>Applets</a
 	>
-	<a
-		class="tab w-1/3 tab-bordered {activeTab === 'Data' ? 'tab-active' : ''}"
-		on:click={() => {
-			activeTab = 'Data';
-		}}>Data</a
-	>
+	<!-- <a -->
+	<!-- 	class="tab w-1/3 tab-bordered {activeTab === 'Data' ? 'tab-active' : ''}" -->
+	<!-- 	on:click={() => { -->
+	<!-- 		activeTab = 'Data'; -->
+	<!-- 	}}>Data</a -->
+	<!-- > -->
 </div>

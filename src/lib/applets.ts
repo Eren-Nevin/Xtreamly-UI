@@ -50,8 +50,8 @@ export async function getAllApplets(
 }
 
 export async function getMyApplets(
-backendHandler: BackendHandler,
-count: number = 100,
+    backendHandler: BackendHandler,
+    count: number = 100,
 ) {
     const res = await backendHandler.getMyApplets(count);
     return res;

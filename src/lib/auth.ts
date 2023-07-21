@@ -1,3 +1,4 @@
+// TODO: If token is expired, then logout
 export async function login(email: string, password: string) {
     const res = await fetch('http://test.xtreamly.io:5001/api/v1/authentication/login', {
         method: 'POST',

@@ -1,4 +1,4 @@
-import { Applet, ExecutionStatus, ProxyAccount, SupportedChains } from "./models"
+import { Applet, ExecutionPerscription, ExecutionStatus, ProxyAccount, SupportedChains } from "./models"
 
 // TOOD: Add https
 export class BackendHandler {
@@ -22,6 +22,12 @@ export class BackendHandler {
         getAllApplets: `${this.baseApiEndPoint}/applets/get-all-applets`,
         getAllMyApplets: `${this.baseApiEndPoint}/applets/get-all-my-applets`,
         publishNewApplet: `${this.baseApiEndPoint}/applets/publish-new-applet`,
+    }
+
+    // TODO: Tell backend to create a new execution perscription endpoint
+    readonly executionPerscriptionEndpoints = {
+        // getAllExecutions: `${this.baseApiEndPoint}/executions/get-all-executions`,
+        createExectuionPerscription: `${this.baseApiEndPoint}/applets/create-execution-perscription`,
     }
 
     constructor(authToken: string) {
@@ -151,6 +157,10 @@ export class BackendHandler {
             const applets = this.adapter.convertReceivedApplets(rawRes['data']);
             return applets;
         }
+        else {
+            console.error('Error fetching applets')
+            return [];
+        }
 
     }
 
@@ -208,6 +218,35 @@ export class BackendHandler {
         }
     }
 
+    // TODO: Implement
+    async getAllExecutionPerscriptions(count: number, offset?: number) {
+    }
+
+    async createExecutionPerscription(perscription: ExecutionPerscription) {
+        try {
+            const serializedPerscription = JSON.stringify(perscription);
+
+            const res = await fetch(this.serverAddress + this.executionPerscriptionEndpoints.createExectuionPerscription, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.authToken,
+                },
+                body: serializedPerscription,
+            });
+
+            if (res.status === 200) {
+                const rawRes = await res.json()
+                console.log(rawRes)
+                // This is the uid of generated perscription
+                return rawRes['data'];
+            }
+        } catch (e) {
+            console.error(e)
+        }
+
+
+    }
 
 
 }

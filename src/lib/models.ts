@@ -10,7 +10,7 @@ export class AppData {
 
 
 
-export enum SupportedChains{
+export enum SupportedChains {
     EVM = 0,
     SOLANA = 1,
     BITCOIN = 2,
@@ -22,7 +22,7 @@ export const enum AppletType {
 }
 
 export const enum AppletVisibility {
-    PRIVATE =0,
+    PRIVATE = 0,
     PUBLIC = 1,
 }
 
@@ -73,6 +73,17 @@ export class ProxyAccount {
         public status: ExecutionStatus,
         public mnemonica: string,
         public createdData: string,
+        public active: boolean,
+    ) { }
+}
+
+export class ExecutionPerscription {
+    constructor(
+        public uid: string,
+        public proxyAccountId: string,
+        public appletId: string,
+        public cron: string,
+        public metadata: string,
         public active: boolean,
     ) { }
 }
