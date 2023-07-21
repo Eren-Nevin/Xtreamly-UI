@@ -15,6 +15,7 @@
 	proxies.set([]);
 	applets.set([]);
 
+
     setContext('applets', applets);
     setContext('proxies', proxies);
 </script>

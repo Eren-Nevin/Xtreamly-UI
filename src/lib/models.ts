@@ -16,17 +16,17 @@ export enum SupportedChains{
     BITCOIN = 2,
 }
 
-const enum AppletType {
+export const enum AppletType {
     GENERAL = 0,
     PUBLIC = 1,
 }
 
-const enum AppletVisibility {
+export const enum AppletVisibility {
     PRIVATE =0,
     PUBLIC = 1,
 }
 
-const enum ExecutionStatus {
+export const enum ExecutionStatus {
     RUNNING = 0,
     STOPPED = 1,
 }
@@ -39,6 +39,8 @@ export class DApp {
     ) { }
 }
 
+// TODO: Add creationDate
+// TODO: Add AppletCompabilityVersion
 export class Applet {
     constructor(
         public uid: string,
@@ -68,7 +70,7 @@ export class ProxyAccount {
     constructor(
         public uid: string,
         public name: string,
-        public status: string,
+        public status: ExecutionStatus,
         public mnemonica: string,
         public createdData: string,
         public active: boolean,

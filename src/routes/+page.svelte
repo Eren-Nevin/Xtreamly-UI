@@ -4,6 +4,8 @@
 	import { PUBLIC_SNAP_ADDRESS } from '$env/static/public';
 	import { onMount } from 'svelte';
 
+    import { login, logout, isLoggedIn } from '$lib/auth';
+
 	const SnapDialogMethod = 'hello';
 	const metamaskHandler = new MetamaskHandler();
 
@@ -29,14 +31,20 @@
 		};
 	});
 
+
 	async function onPopupClosed() {
 		console.log('Popup Closed');
 	}
 
 	async function openPopUpClickHandler() {
 		console.log(`opening popup`);
+        let url = 'http://localhost:3001/auth';
+        if (await isLoggedIn()) {
+           url = 'http://localhost:3001/control';
+        }
+        
 		const popup = window.open(
-			`http://localhost:3001/control`,
+            url,
 			undefined,
 			`height=550, left=1635, top=170, status=no, width=350, titlebar=no, toolbar=no, menubar=no, popup`
 		);

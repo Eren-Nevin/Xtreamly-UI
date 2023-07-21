@@ -1,21 +1,21 @@
 <script lang="ts">
-	import type { ProxyAccount } from '$lib/ProxyAccount';
 	import type { Writable } from 'svelte/store';
 	import ProxyControlRow from '../ProxyControlRow.svelte';
 	import ProxyDetail from '../ProxyTab/ProxyDetail.svelte';
-	import { Icon } from 'svelte-awesome';
-	import { faArrowsRotate, faPause, faStop } from '@fortawesome/free-solid-svg-icons';
 
+	import { type ProxyAccount, ExecutionStatus } from '$lib/models';
 	import { BackendHandler } from '$lib/backend';
 	import { getAuthToken } from '$lib/auth';
+	import { getContext } from 'svelte';
 
-	export let proxies: Writable<ProxyAccount[]>;
+	const proxies = getContext<Writable<ProxyAccount[]>>('proxies');
+
+	// TODO: Retreive mnemonic by button
 
 	let selectedProxyId = '';
 
-	$: runningProxies = $proxies.filter((pr) => pr.status === 'Running');
-	$: pausedProxies = $proxies.filter((pr) => pr.status === 'Paused');
-	$: stoppedProxies = $proxies.filter((pr) => pr.status === 'Stopped');
+	$: runningProxies = $proxies.filter((pr) => pr.status === ExecutionStatus.RUNNING);
+	$: stoppedProxies = $proxies.filter((pr) => pr.status === ExecutionStatus.STOPPED);
 
 	// TODO: Add Error Handling
 
@@ -34,9 +34,9 @@
 		const res = await backendHandler.getProxyAccounts(count);
 		if (res) {
 			console.log(res);
+			proxies.set(res);
 		}
 	}
-	// TODO: Retreive mnemonic by button
 </script>
 
 <div class="w-full flex flex-col items-start px-4 gap-3">
@@ -45,25 +45,17 @@
 	{:else}
 		<div class="w-full mt-2" />
 		{#if runningProxies.length !== 0}
-			<h2 class="text-md font-semibold">Running:</h2>
-			{#each runningProxies as proxy}
-				<div class="w-full flex flex-row h-8">
-					<ProxyControlRow proxyId={proxy.uid} bind:selectedProxyId />
-				</div>
-			{/each}
-		{/if}
-		<h2 class="text-md font-semibold">Paused</h2>
-		{#if pausedProxies.length !== 0}
-			{#each pausedProxies as proxy}
-				<div class="w-full flex flex-row h-8">
-					<ProxyControlRow proxyId={proxy.uid} bind:selectedProxyId />
-				</div>
-			{/each}
+			<div class="w-full flex flex-col gap-1">
+				<h2 class="text-md font-semibold">Running:</h2>
+				{#each runningProxies as proxy}
+						<ProxyControlRow proxyId={proxy.uid} bind:selectedProxyId />
+				{/each}
+			</div>
 		{/if}
 		<h2 class="text-md font-semibold">Stopped</h2>
 		{#if stoppedProxies.length !== 0}
 			{#each stoppedProxies as proxy}
-				<div class="w-full flex flex-row h-8">
+				<div class="w-full flex flex-row">
 					<ProxyControlRow proxyId={proxy.uid} bind:selectedProxyId />
 				</div>
 			{/each}

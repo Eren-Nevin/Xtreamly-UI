@@ -42,6 +42,8 @@
 	let proxyState: ProxyState;
 
 	$: proxyState = getProxyState(proxy) ?? 'Undefined';
+
+    // TODO: Add button to retreive chain addresses and mnemonica 
 </script>
 
 {#if selectedProxyId && proxy}

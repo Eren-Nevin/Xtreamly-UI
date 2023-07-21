@@ -66,13 +66,15 @@ export async function signup(email: string, password: string) {
 
 }
 
-export async function logout() {
+// NOTE: call goto auth page after this
+export function logout() {
     localStorage.removeItem('token');
 }
 
 // TODO: Test this
 export async function isLoggedIn() {
     const token = localStorage.getItem('token');
+    console.log(token);
     if (token) {
         return true;
     }

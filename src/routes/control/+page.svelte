@@ -3,26 +3,13 @@
 	export let data: PageData;
 	import { getContext, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
-	import type {
-		ProxyAccount,
-		AuthData,
-		Delegation,
-		DApp,
-		DynamicAccess,
-		AppStoreApp
-	} from '$lib/ProxyAccount';
-
-	const dapps = getContext<Writable<DApp[]>>('dapps');
-	const proxies = getContext<Writable<ProxyAccount[]>>('proxies');
-	const authDatas = getContext<Writable<AuthData[]>>('authDatas');
-	const appStoreApps = getContext<Writable<AppStoreApp[]>>('appStoreApps');
-	const dynamicAccess = getContext<Writable<DynamicAccess>>('dynamicAccess');
+	import type { ProxyAccount, Applet } from '$lib/models';
 
 	let activeTab = 'App Store';
 
 	import logo from '$lib/assets/download.svg';
 	import TabSelector from '$lib/components/TabSelector.svelte';
-	import AppStoreTab from '$lib/components/tabs/AppStoreTab.svelte';
+	import AppletTab from '$lib/components/tabs/AppletTab.svelte';
 	import DataTab from '$lib/components/tabs/DataTab.svelte';
 	import ProxyTab from '$lib/components/tabs/ProxyTab.svelte';
 
@@ -33,10 +20,10 @@
 <TabSelector bind:activeTab />
 <div class="w-auto flex flex-col items-center py-2">
 	{#if activeTab === 'App Store'}
-		<AppStoreTab />
+		<AppletTab />
 	{:else if activeTab === 'Data'}
-		<DataTab {authDatas} {dynamicAccess} />
+		<!-- <DataTab {authDatas} {dynamicAccess} /> -->
 	{:else}
-		<ProxyTab {proxies} />
+		<ProxyTab />
 	{/if}
 </div>

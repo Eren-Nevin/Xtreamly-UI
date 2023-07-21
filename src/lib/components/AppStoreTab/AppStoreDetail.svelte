@@ -1,18 +1,16 @@
 <script lang="ts">
 	import { fade, blur, fly, slide, scale, draw, crossfade } from 'svelte/transition';
 	import { Icon } from 'svelte-awesome';
-	import beer from 'svelte-awesome/icons/beer';
-	import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 	import { faChevronLeft, faChevronRight, faEllipsis, faShare, faShareAlt, faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
 	import { getContext } from 'svelte';
-	import type { Writable } from 'svelte/store';
-	import type { AppStoreApp } from '$lib/ProxyAccount';
-	import Modal from '../Modal.svelte';
 
-	const appStoreApps = getContext<Writable<AppStoreApp[]>>('appStoreApps');
+	import type { Writable } from 'svelte/store';
+	import type { Applet } from '$lib/models';
+
+	const appStoreApps = getContext<Writable<Applet[]>>('applets');
 	export let selectedAppId: string;
 
-	$: selectedApp = $appStoreApps.find((e) => e.id == selectedAppId);
+	$: selectedApp = $appStoreApps.find((e) => e.uid == selectedAppId);
 </script>
 
 {#if selectedAppId && selectedApp}
@@ -84,7 +82,7 @@
 					<p
 						class="border-gray-300 border rounded-md p-2 my-2 text-xs font-light whitespace-break-spaces break-words"
 					>
-						{selectedApp.code}
+						{selectedApp.script}
 					</p>
 				</form>
 			</dialog>

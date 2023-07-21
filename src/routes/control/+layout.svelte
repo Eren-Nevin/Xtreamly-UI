@@ -4,24 +4,35 @@
 	import Icon from 'svelte-awesome';
 	import ellipsisV from 'svelte-awesome/icons/ellipsisV';
 
-	import type {
-		ProxyAccount,
-		Applet,
-	} from '$lib/models';;
-	import { getContext, onMount } from 'svelte';
-	import { writable } from 'svelte/store';
+	import { ProxyAccount, type Applet } from '$lib/models';
 
-    const proxies = getContext<ProxyAccount[]>('proxies');
-    const applets = getContext<Applet[]>('applets');
+	import { BackendHandler } from '$lib/backend';
 
+	import { setContext, getContext, onMount } from 'svelte';
+	import { writable, type Writable } from 'svelte/store';
+	import { getAuthToken, logout } from '$lib/auth';
+
+	const proxies = writable<ProxyAccount[]>([]);
+	const applets = writable<Applet[]>([]);
 
 	onMount(async () => {
-		// const loadedAppData = await loadState();
-		dapps.set(loadedAppData.dapps);
-		authDatas.set(loadedAppData.authDatas);
-		proxies.set(loadedAppData.proxyAccounts);
-		appStoreApps.set(loadedAppData.appStoreApps);
-		dynamicAccess.set(loadedAppData.dynamicAccess);
+		const backendHandler = new BackendHandler(getAuthToken() ?? '');
+
+		if (backendHandler.authToken === '') {
+			goto('/login');
+			console.log('Not Authenticated');
+			return;
+		}
+
+		const proxyAccounts = await backendHandler.getProxyAccounts(100);
+
+		proxies.set(proxyAccounts);
+
+		// const applets = await backendHandler.getApplets();
+		// setContext('applets', applets);
+
+		setContext('proxies', proxies);
+		setContext('applets', proxies);
 	});
 </script>
 
@@ -99,6 +110,7 @@
 			<button
 				class="btn btn-xs ml-auto"
 				on:click={() => {
+					logout();
 					goto('../auth');
 				}}
 			>
