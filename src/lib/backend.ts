@@ -129,10 +129,12 @@ export class BackendHandler {
             else {
                 console.error('Error changing proxy account execution status')
                 console.error(await res.text())
+                return false;
             }
         }
         catch (e) {
             console.error(e)
+            return false;
         }
     }
 
@@ -185,6 +187,8 @@ export class BackendHandler {
                 const rawRes = await res.json()
                 console.log(rawRes)
                 return this.adapter.convertReceivedApplets(rawRes['data']);
+            } else {
+                return [];
             }
         } catch (e) {
             console.error(e)
@@ -315,7 +319,7 @@ export class DataAdapter {
 
             return new Applet(
                 rawApplet.id,
-                rawApplet.script,
+                rawApplet.script.scriptText,
                 rawApplet.owner,
                 rawApplet.visibility,
                 rawApplet.appletType,

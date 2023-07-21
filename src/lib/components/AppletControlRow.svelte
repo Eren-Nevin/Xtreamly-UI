@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { AppStoreApp } from '$lib/ProxyAccount';
-	export let app: AppStoreApp;
+	import type { Applet } from '$lib/models';
+	export let app: Applet;
 
 	export let selectedAppId: string;
 </script>
@@ -8,10 +8,10 @@
 <div
 	class="w-full h-24 flex flex-row mx-2 px-2 items-center rounded-md opacity-75 space-x-2"
 	on:click={() => {
-		selectedAppId = app.id;
+		selectedAppId = app.uid;
 	}}
 	on:keypress={() => {
-		selectedAppId = app.id;
+		selectedAppId = app.uid;
 	}}
 >
 	<div class="w-16 h-16 bg-gray-100 rounded-2xl flex-shrink-0">

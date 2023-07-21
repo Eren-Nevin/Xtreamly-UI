@@ -61,7 +61,7 @@
 				class="btn btn-primary btn-sm ml-auto"
 				on:click={async () => {
 					await refreshProxyList();
-				}}>Get</button
+				}}>Refresh</button
 			>
 		</div>
 		<div class="w-full my-2" />

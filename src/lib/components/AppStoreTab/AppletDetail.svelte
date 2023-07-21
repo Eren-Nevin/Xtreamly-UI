@@ -1,20 +1,40 @@
 <script lang="ts">
+	import { installApplet } from '$lib/execution_perscriptions';
 	import { fade, blur, fly, slide, scale, draw, crossfade } from 'svelte/transition';
 	import { Icon } from 'svelte-awesome';
-	import { faChevronLeft, faChevronRight, faEllipsis, faShare, faShareAlt, faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
+	import {
+		faChevronLeft,
+		faChevronRight,
+		faEllipsis,
+		faShare,
+		faShareAlt,
+		faArrowUpFromBracket
+	} from '@fortawesome/free-solid-svg-icons';
 	import { getContext } from 'svelte';
 
 	import type { Writable } from 'svelte/store';
-	import type { Applet } from '$lib/models';
+	import type { Applet, ProxyAccount } from '$lib/models';
+	import { BackendHandler } from '$lib/backend';
+	import { getAuthToken } from '$lib/auth';
 
-	const appStoreApps = getContext<Writable<Applet[]>>('applets');
+	const appStoreApps = getContext<Writable<Applet[]>>('allApplets');
+	const proxies = getContext<Writable<ProxyAccount[]>>('proxies');
 	export let selectedAppId: string;
 
 	$: selectedApp = $appStoreApps.find((e) => e.uid == selectedAppId);
+
+	let inputCronString = '';
+
+	let selectedProxyIdInInstallModal = '';
+
+	const backendHandler = new BackendHandler(getAuthToken() ?? '');
 </script>
 
 {#if selectedAppId && selectedApp}
-	<div transition:fly={{duration: 200, x:'50vw', opacity: 0.5}} class="w-full flex flex-col items-start px-2">
+	<div
+		transition:fly={{ duration: 200, x: '50vw', opacity: 0.5 }}
+		class="w-full flex flex-col items-start px-2"
+	>
 		<div class="w-full flex flex-row justify-start my-4">
 			<button
 				class="btn btn-xs text-blue-400 bg-transparent border-transparent hover:bg-transparent hover:border-transparent"
@@ -28,15 +48,56 @@
 		</div>
 
 		<div class="w-full flex flex-row justify-start">
-            <!-- TODO: Make logo urls to point to app store logo sizes (rounded corners) -->
-			<div class="w-24 h-24 bg-gray-100 rounded-2xl flex-shrink-0" >
-                <img src="{selectedApp.logoUrl}" alt="Applet Logo"/>
-            </div>
+			<!-- TODO: Make logo urls to point to app store logo sizes (rounded corners) -->
+			<div class="w-24 h-24 bg-gray-100 rounded-2xl flex-shrink-0">
+				<img src={selectedApp.logoUrl} alt="Applet Logo" />
+			</div>
 			<div class="flex flex-col mx-4 w-full">
 				<span class="text-lg"> {selectedApp.name} </span>
 				<span class="text-xs font-light text-gray-400"> {selectedApp.shortDescription} </span>
 				<div class="flex flex-row mt-auto w-full">
-					<button class="btn btn-xs w-16 btn-primary rounded-2xl"> Get </button>
+					<!-- <button class="btn btn-xs w-16 btn-primary rounded-2xl" on:click={async () => { -->
+					<!---->
+					<!--                }}> Get </button> -->
+					<button class="btn btn-xs w-16 btn-primary rounded-2xl" onclick="my_modal_2.showModal()"
+						>Get it</button
+					>
+					<dialog id="my_modal_2" class="modal">
+						<form method="dialog" class="modal-box">
+							<h3 class="font-bold text-lg">Install</h3>
+							<!-- Replace this with dropdown -->
+							<div class="py-2 flex flex-col gap-2">
+								<select
+									class="select select-secondary w-full max-w-xs"
+									on:change|preventDefault={(e) => {
+										// console.log(e.target.value);
+                                        selectedProxyIdInInstallModal = e.target.value;
+									}}
+								>
+									<option disabled selected>Pick proxy account</option>
+									{#each $proxies as proxy}
+										<option value={proxy.uid}>{proxy.name}</option>
+									{/each}
+								</select>
+								<input
+									type="text"
+									placeholder="Insert cron string"
+									class="input input-bordered w-full max-w-xs"
+									bind:value={inputCronString}
+								/>
+							</div>
+							<button
+								class="btn btn-sm btn-primary"
+								on:click={async () => {
+									await installApplet(backendHandler, selectedApp.uid, selectedProxyIdInInstallModal, inputCronString);
+								}}>Install</button
+							>
+						</form>
+
+						<form method="dialog" class="modal-backdrop">
+							<button>close</button>
+						</form>
+					</dialog>
 					<!-- TODO: Make it to share? -->
 					<button class="btn btn-xs w-6 text-blue-700 ml-auto p-0 border-none">
 						<Icon data={faArrowUpFromBracket} />
@@ -93,7 +154,6 @@
 			<span class="text-sm font-light">{selectedApp.updates}</span>
 		</div>
 		<div class="py-4" />
-
 	</div>
 {/if}
 

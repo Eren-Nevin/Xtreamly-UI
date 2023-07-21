@@ -25,3 +25,14 @@ export async function createExecutionPermission(
     newExecutionPerscription.uid = res;
     return newExecutionPerscription;
 }
+
+export async function installApplet(
+backendHandler: BackendHandler,
+appletId: string,
+proxyId: string,
+cron: string,
+) {
+    const eP = await createExecutionPermission(backendHandler, appletId, proxyId, cron, '');
+    return eP;
+}
+

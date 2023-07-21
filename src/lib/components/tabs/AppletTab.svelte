@@ -2,7 +2,7 @@
 	import { Applet, AppletVisibility } from '$lib/models';
 	import type { Writable } from 'svelte/store';
 	import AppletControlRow from '../AppletControlRow.svelte';
-	import AppStoreDetail from '../AppStoreTab/AppStoreDetail.svelte';
+	import AppletDetail from '../AppStoreTab/AppletDetail.svelte';
 	import { getContext } from 'svelte';
 	import { BackendHandler } from '$lib/backend';
 	import { getAuthToken } from '$lib/auth';
@@ -13,67 +13,67 @@
 	const allApplets = getContext<Writable<Applet[]>>('allApplets');
 
 	let selectedAppId = '';
+	let onlyShowMyApplets = false;
 
 	const backendHandler = new BackendHandler(getAuthToken() ?? '');
+
+	const refreshAppletList = async () => {
+		const receivedAllApplets = await getAllApplets(backendHandler);
+		allApplets.set(receivedAllApplets);
+		const receivedMyApplets = await getMyApplets(backendHandler);
+		applets.set(receivedMyApplets);
+	};
 </script>
 
 <div class="w-full flex flex-col items-center px-2">
 	{#if selectedAppId}
-		<AppStoreDetail bind:selectedAppId />
+		<AppletDetail bind:selectedAppId />
 	{:else}
-		<button
-			class="btn btn-sm btn-primary"
-			on:click={async () => {
-				const newApplet = await publishApplet(
-					backendHandler,
-					'Top Applet',
-					'a = 3;',
-					'Some Developer',
-					'https://google.com',
-					'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/EmacsIcon.svg/1024px-EmacsIcon.svg.png',
-					'desc',
-					'short_desc',
-					'4.3',
-					'no_updates',
-					'install_notes_here',
-					'uninstall_notes_here',
-					AppletVisibility.PRIVATE
-				);
+		<div class="w-full flex flex-row items-center gap-1">
+			<label class="mr-auto label cursor-pointer flex flex-row space-x-2">
+				<span class="label-text font-light">{onlyShowMyApplets ? 'My Applets' : 'All Applets'}</span
+				>
+				<input type="checkbox" class="toggle" bind:checked={onlyShowMyApplets} />
+			</label>
+			<button
+				class="btn btn-primary btn-sm"
+				on:click={async () => {
+					const newApplet = await publishApplet(
+						backendHandler,
+						'Best Applet',
+						'a = 3;',
+						'Some Developer',
+						'https://google.com',
+						'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/EmacsIcon.svg/1024px-EmacsIcon.svg.png',
+						'desc',
+						'short_desc',
+						'4.3',
+						'no_updates',
+						'install_notes_here',
+						'uninstall_notes_here',
+						AppletVisibility.PRIVATE
+					);
 
-				applets.update((state) => {
-					return [...state, newApplet];
-				});
-			}}>Add</button
-		>
-		<button
-			class="btn btn-sm btn-primary"
-			on:click={async () => {
-				const res = await getAllApplets(backendHandler);
-				console.log(res);
-			}}
-		>
-			Get
-		</button>
-		<button
-			class="btn btn-sm btn-primary"
-			on:click={async () => {
-				const res = await getMyApplets(backendHandler);
-				console.log(res);
-			}}
-		>
-			Get Mine
-		</button>
-        <div class="w-full flex flex-col">
-        <h3>All Applets</h3>
-		{#each $applets as applet}
-			<AppletControlRow app={applet} bind:selectedAppId />
-		{/each}
-        </div>
-        <div class="w-full flex flex-col">
-        <h3>My Applets</h3>
-		{#each $applets as applet}
-			<AppletControlRow app={applet} bind:selectedAppId />
-		{/each}
-        </div>
+					await refreshAppletList();
+				}}>Add</button
+			>
+			<button
+				class="btn btn-primary btn-sm"
+				on:click={async () => {
+					await refreshAppletList();
+				}}>Refresh</button
+			>
+		</div>
+		<div class="w-full flex flex-col">
+			{#if onlyShowMyApplets}
+				{#each $applets as applet}
+					<AppletControlRow app={applet} bind:selectedAppId />
+				{/each}
+			{:else}
+				{#each $allApplets as applet}
+					<AppletControlRow app={applet} bind:selectedAppId />
+				{/each}
+			{/if}
+		</div>
 	{/if}
 </div>

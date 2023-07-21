@@ -44,6 +44,7 @@ export class DApp {
 export class Applet {
     constructor(
         public uid: string,
+        // NOTE: Should we convert script to the real object returned by server or just parse the string part in de/serialization as we're doing now?
         public script: string,
         public owner: string,
         // TODO: PUBLIC, PRIVATE
