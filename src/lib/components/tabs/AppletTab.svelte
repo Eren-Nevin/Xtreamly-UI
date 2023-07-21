@@ -10,10 +10,11 @@
 	import { publishApplet, getAllApplets, getMyApplets } from '$lib/applets';
 
 	const applets = getContext<Writable<Applet[]>>('applets');
+	const allApplets = getContext<Writable<Applet[]>>('allApplets');
 
 	let selectedAppId = '';
 
-	const backendHandler = new BackendHandler(getAuthToken());
+	const backendHandler = new BackendHandler(getAuthToken() ?? '');
 </script>
 
 <div class="w-full flex flex-col items-center px-2">
@@ -62,8 +63,17 @@
 		>
 			Get Mine
 		</button>
+        <div class="w-full flex flex-col">
+        <h3>All Applets</h3>
 		{#each $applets as applet}
 			<AppletControlRow app={applet} bind:selectedAppId />
 		{/each}
+        </div>
+        <div class="w-full flex flex-col">
+        <h3>My Applets</h3>
+		{#each $applets as applet}
+			<AppletControlRow app={applet} bind:selectedAppId />
+		{/each}
+        </div>
 	{/if}
 </div>

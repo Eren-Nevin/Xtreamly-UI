@@ -7,15 +7,21 @@
 	import { Icon } from 'svelte-awesome';
 	import type { Writable } from 'svelte/store';
 
+	import { stopProxy, resumeProxy, getProxies } from '$lib/proxies';
+
 	export let selectedProxyId: string;
 	export let proxyId: string;
 
 	const proxies = getContext<Writable<ProxyAccount[]>>('proxies');
 
-	// const backendHandler = getContext<BackendHandler>('backendHandler');
 	const backendHandler = new BackendHandler(getAuthToken() ?? '');
 
 	$: proxy = $proxies.find((e) => e.uid === proxyId);
+
+	const refreshProxyList = async () => {
+		const receivedProxies = await getProxies(backendHandler);
+		proxies.set(receivedProxies);
+	};
 </script>
 
 {#if proxy}
@@ -27,15 +33,22 @@
             bg-gray-100
             "
 		on:click={() => {
-			selectedProxyId = proxy.uid;
+			if (proxy) {
+				selectedProxyId = proxy.uid;
+			}
+		}}
+		on:keypress={() => {
+			if (proxy) {
+				selectedProxyId = proxy.uid;
+			}
 		}}
 	>
 		<h1 class="text-sm mr-auto">{`${proxy.name}`}</h1>
 		<div class="flex flex-row ml-auto gap-2">
 			<!-- <button -->
 			<!-- 	class="btn btn-sm btn-circle bg-base-100 -->
-   <!--                  border border-gray-300 -->
-   <!--                  " -->
+			<!--                  border border-gray-300 -->
+			<!--                  " -->
 			<!-- 	on:click|stopPropagation={async () => { -->
 			<!-- 		console.log('HELLO'); -->
 			<!-- 		console.log(backendHandler); -->
@@ -50,10 +63,15 @@
                     border border-gray-300
                     "
 				on:click|stopPropagation={async () => {
-					const res = await backendHandler.changeProxyAccountExecutionStatus(
-						proxy.uid,
-						ExecutionStatus.STOPPED
-					);
+					if (proxy) {
+						if (proxy.status === ExecutionStatus.RUNNING) {
+							await stopProxy(backendHandler, proxy.uid);
+							await refreshProxyList();
+						} else {
+							await resumeProxy(backendHandler, proxy.uid);
+							await refreshProxyList();
+						}
+					}
 				}}
 			>
 				<Icon

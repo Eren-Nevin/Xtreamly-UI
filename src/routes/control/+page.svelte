@@ -1,26 +1,21 @@
 <script lang="ts">
-	import logo from '$lib/assets/download.svg';
-	import TabSelector from '$lib/components/TabSelector.svelte';
-	import AppletTab from '$lib/components/tabs/AppletTab.svelte';
-	import DataTab from '$lib/components/tabs/DataTab.svelte';
-	import ProxyTab from '$lib/components/tabs/ProxyTab.svelte';
-
 	import type { PageData } from './$types';
-	import { type ProxyAccount, type Applet, ExecutionPerscription } from '$lib/models';
-
-	import { BackendHandler } from '$lib/backend';
-
-	import { setContext, getContext, onMount } from 'svelte';
-	import { writable, type Writable } from 'svelte/store';
-
 	export let data: PageData;
 
+	import TabSelector from '$lib/components/TabSelector.svelte';
+	import AppletTab from '$lib/components/tabs/AppletTab.svelte';
+	import ProxyTab from '$lib/components/tabs/ProxyTab.svelte';
+
+	import type { ProxyAccount, Applet, ExecutionPerscription } from '$lib/models';
+
+	import { setContext } from 'svelte';
+	import { writable } from 'svelte/store';
 
 	const proxies = writable<ProxyAccount[]>(data.proxies);
 	// NOTE: This is user applets, not all available applets
 	const applets = writable<Applet[]>(data.applets);
 	const allApplets = writable<Applet[]>(data.allApplets);
-	const executions = writable<ExecutionPerscription[]>(data.executionPerscription);
+	const executions = writable<ExecutionPerscription[]>(data.executionPerscriptions);
 
 
 	setContext('proxies', proxies);
@@ -28,7 +23,7 @@
 	setContext('allApplets', allApplets);
 	setContext('executions', executions);
 
-	let activeTab = 'App Store';
+	let activeTab = 'Applet-Tab';
 
 	// TODO: Make it part of state
 	// let advancedAccessControl = false;
@@ -36,7 +31,7 @@
 
 <TabSelector bind:activeTab />
 <div class="w-auto flex flex-col items-center py-2">
-	{#if activeTab === 'App Store'}
+	{#if activeTab === 'Applet-Tab'}
 		<AppletTab />
 	{:else if activeTab === 'Data'}
 		<!-- <DataTab {authDatas} {dynamicAccess} /> -->

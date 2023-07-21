@@ -46,19 +46,21 @@ export class BackendHandler {
     //
 
     // TODO: Add Error Handling
-    async createProxyAccount(name: string) {
+    async createProxyAccount(proxyAccount: ProxyAccount) {
         const res = await fetch(this.serverAddress + this.proxyAccountEndpoints.createProxyAccount, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + this.authToken,
             },
-            body: JSON.stringify({ name: name }),
+            body: JSON.stringify({ name: proxyAccount.name }),
         });
 
         if (res.status === 200) {
             console.log('Proxy Account Created')
-            console.log(res);
+            const rawRes = await res.json()
+            console.log(rawRes)
+            return rawRes['data']
         }
     }
 
@@ -164,7 +166,7 @@ export class BackendHandler {
 
     }
 
-    // TODO: Add get my applets
+    // TODO: Fix in backend
     async getMyApplets(count: number, offset?: number) {
         const url = this.serverAddress + this.appletEndpoints.getAllMyApplets + `?count=${count}`;
         if (offset) {

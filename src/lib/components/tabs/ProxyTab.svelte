@@ -8,6 +8,8 @@
 	import { getAuthToken } from '$lib/auth';
 	import { getContext } from 'svelte';
 
+	import { createProxy, getProxies } from '$lib/proxies';
+
 	const proxies = getContext<Writable<ProxyAccount[]>>('proxies');
 
 	// TODO: Retreive mnemonic by button
@@ -18,25 +20,12 @@
 	$: stoppedProxies = $proxies.filter((pr) => pr.status === ExecutionStatus.STOPPED);
 
 	// TODO: Add Error Handling
+	const backendHandler = new BackendHandler(getAuthToken() ?? '');
 
-	const loggedInToken = getAuthToken();
-
-	console.log(loggedInToken);
-
-	const backendHandler = new BackendHandler(loggedInToken);
-
-	async function createProxy() {
-		const res = await backendHandler.createProxyAccount('First');
-	}
-
-	// TODO: Add pagination
-	async function getProxies(count: number) {
-		const res = await backendHandler.getProxyAccounts(count);
-		if (res) {
-			console.log(res);
-			proxies.set(res);
-		}
-	}
+	const refreshProxyList = async () => {
+		const receivedProxies = await getProxies(backendHandler);
+		proxies.set(receivedProxies);
+	};
 </script>
 
 <div class="w-full flex flex-col items-start px-4 gap-3">
@@ -48,7 +37,7 @@
 			<div class="w-full flex flex-col gap-1">
 				<h2 class="text-md font-semibold">Running:</h2>
 				{#each runningProxies as proxy}
-						<ProxyControlRow proxyId={proxy.uid} bind:selectedProxyId />
+					<ProxyControlRow proxyId={proxy.uid} bind:selectedProxyId />
 				{/each}
 			</div>
 		{/if}
@@ -64,13 +53,14 @@
 			<button
 				class="btn btn-primary btn-sm ml-auto"
 				on:click={async () => {
-					await createProxy();
+					await createProxy(backendHandler, 'Top Proxy');
+					await refreshProxyList();
 				}}>New</button
 			>
 			<button
 				class="btn btn-primary btn-sm ml-auto"
 				on:click={async () => {
-					await getProxies(100);
+					await refreshProxyList();
 				}}>Get</button
 			>
 		</div>
