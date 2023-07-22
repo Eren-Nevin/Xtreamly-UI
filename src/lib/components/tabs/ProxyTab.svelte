@@ -16,6 +16,8 @@
 
 	let selectedProxyId = '';
 
+    let beingAddedProxyName = '';
+
 	$: runningProxies = $proxies.filter((pr) => pr.status === ExecutionStatus.RUNNING);
 	$: stoppedProxies = $proxies.filter((pr) => pr.status === ExecutionStatus.STOPPED);
 
@@ -33,6 +35,45 @@
 		<ProxyDetail bind:selectedProxyId />
 	{:else}
 		<div class="w-full mt-2" />
+		<div class="w-full flex flex-row px-2 justify-end gap-2">
+			<button
+				class="btn btn-primary btn-sm"
+onclick="event.stopPropagation(); 
+                document.getElementById('add_proxy_modal').showModal();"
+			>New</button
+			>
+			<button
+				class="btn btn-primary btn-sm"
+				on:click={async () => {
+					await refreshProxyList();
+				}}>Refresh</button
+			>
+		</div>
+			<dialog id="add_proxy_modal" class="modal">
+				<form method="dialog" class="modal-box">
+					<h3 class="font-bold text-lg">Install</h3>
+					<!-- Replace this with dropdown -->
+					<div class="py-2 flex flex-col gap-2">
+						<input
+							type="text"
+							placeholder="Enter Proxy Name"
+							class="input input-bordered w-full max-w-xs"
+							bind:value={beingAddedProxyName}
+						/>
+					</div>
+					<button
+						class="btn btn-sm btn-primary"
+						on:click={async () => {
+					await createProxy(backendHandler, beingAddedProxyName);
+					await refreshProxyList();
+						}}>Add</button
+					>
+				</form>
+
+				<form method="dialog" class="modal-backdrop">
+					<button>close</button>
+				</form>
+			</dialog>
 		{#if runningProxies.length !== 0}
 			<div class="w-full flex flex-col gap-1">
 				<h2 class="text-md font-semibold">Running:</h2>
@@ -49,21 +90,6 @@
 				</div>
 			{/each}
 		{/if}
-		<div class="w-full flex flex-row px-2 items-center">
-			<button
-				class="btn btn-primary btn-sm ml-auto"
-				on:click={async () => {
-					await createProxy(backendHandler, 'Top Proxy');
-					await refreshProxyList();
-				}}>New</button
-			>
-			<button
-				class="btn btn-primary btn-sm ml-auto"
-				on:click={async () => {
-					await refreshProxyList();
-				}}>Refresh</button
-			>
-		</div>
 		<div class="w-full my-2" />
 	{/if}
 </div>

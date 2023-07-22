@@ -1,7 +1,7 @@
 import type { BackendHandler } from "./backend";
 import { ExecutionPerscription } from "./models";
 
-export async function createExecutionPermission(
+export async function createExecutionPerscription(
     backendHandler: BackendHandler,
     appletId: string,
     proxyId: string,
@@ -27,12 +27,22 @@ export async function createExecutionPermission(
 }
 
 export async function installApplet(
-backendHandler: BackendHandler,
-appletId: string,
-proxyId: string,
-cron: string,
+    backendHandler: BackendHandler,
+    appletId: string,
+    proxyId: string,
+    cron: string,
 ) {
-    const eP = await createExecutionPermission(backendHandler, appletId, proxyId, cron, '');
+    const eP = await createExecutionPerscription(backendHandler, appletId, proxyId, cron, '');
     return eP;
+}
+
+export async function getMyExecutionPerscriptions(backendHandler: BackendHandler) {
+    const res = await backendHandler.getMyExecutionPerscriptions(100);
+    return res;
+}
+
+export async function getPerscriptionLogs(backendHandler: BackendHandler, perscriptionId: string) {
+    const res = await backendHandler.getExecutionPerscriptionLogs(perscriptionId, 100);
+    return res;
 }
 

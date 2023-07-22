@@ -1,6 +1,7 @@
 import { Applet, ExecutionPerscription, ExecutionStatus, ProxyAccount, SupportedChains } from "./models"
 
 // TOOD: Add https
+// TODO: Fix returning 500 error if server is not running
 export class BackendHandler {
     readonly adapter: DataAdapter
 
@@ -26,8 +27,10 @@ export class BackendHandler {
 
     // TODO: Tell backend to create a new execution perscription endpoint
     readonly executionPerscriptionEndpoints = {
-        // getAllExecutions: `${this.baseApiEndPoint}/executions/get-all-executions`,
+        getMyExecutionsPerscriptions: `${this.baseApiEndPoint}/applets/get-all-my-execution-perscriptions`,
+        getMyExecutionPerscriptionsByProxy: `${this.baseApiEndPoint}/applets/get-all-my-execution-perscriptions-by-proxy-id`,
         createExectuionPerscription: `${this.baseApiEndPoint}/applets/create-execution-perscription`,
+        getExecutionPerscriptionLogs: `${this.baseApiEndPoint}/applets/get-logs-for-execution-perscription`,
     }
 
     constructor(authToken: string) {
@@ -225,12 +228,36 @@ export class BackendHandler {
     }
 
     // TODO: Implement
-    async getAllExecutionPerscriptions(count: number, offset?: number) {
+    async getMyExecutionPerscriptions(count: number, offset?: number) {
+        try {
+            const url = this.serverAddress + this.executionPerscriptionEndpoints.getMyExecutionsPerscriptions + `?count=${count}`;
+            if (offset) {
+                url + `&offset=${offset}`
+            }
+            const res = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.authToken,
+                },
+            });
+
+            if (res.status === 200) {
+                const rawRes = await res.json()
+                console.log(rawRes)
+                return this.adapter.convertReceivedExecutionPerscriptions(rawRes['data']);
+            }
+
+        } catch (e) {
+            console.error(e)
+            return []
+        }
     }
 
     async createExecutionPerscription(perscription: ExecutionPerscription) {
         try {
-            const serializedPerscription = JSON.stringify(perscription);
+            const serializedPerscription = JSON.stringify(
+                this.adapter.convertExecutionPerscriptionForSendingToNew(perscription));
 
             const res = await fetch(this.serverAddress + this.executionPerscriptionEndpoints.createExectuionPerscription, {
                 method: 'POST',
@@ -246,12 +273,42 @@ export class BackendHandler {
                 console.log(rawRes)
                 // This is the uid of generated perscription
                 return rawRes['data'];
+            } else {
+                console.error('Error creating new execution perscription')
+                console.error(await res.text())
             }
         } catch (e) {
             console.error(e)
         }
 
 
+    }
+
+    async getExecutionPerscriptionLogs(perscriptionId: string, count: number) {
+        try {
+            const url = this.serverAddress + this.executionPerscriptionEndpoints.getExecutionPerscriptionLogs + `?executionPerscriptionId=${perscriptionId}` + `&count=${count}`
+            console.log(url);
+            const res = await fetch(url,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + this.authToken,
+                    }
+                }
+            );
+
+            if (res.status === 200) {
+                const rawRes = await res.json()
+                console.log(rawRes)
+                return rawRes['data'];
+            } else {
+                console.log(await res.text())
+                return [];
+            }
+        } catch (e) {
+            console.error(e)
+        }
     }
 
 
@@ -337,6 +394,31 @@ export class DataAdapter {
         });
 
         return applets;
+    }
+
+    convertReceivedExecutionPerscriptions(rawData: any[]) {
+        return rawData.map((rawPerscription: any) => {
+            console.log(rawPerscription);
+            return new ExecutionPerscription(
+                rawPerscription.id,
+                rawPerscription.proxyAccount.id,
+                rawPerscription.applet.id,
+                rawPerscription.cron,
+                rawPerscription.metadata,
+                rawPerscription.active,
+            )
+        });
+    }
+
+    convertExecutionPerscriptionForSendingToNew(perscription: ExecutionPerscription) {
+        return {
+            appletId: perscription.appletId,
+            proxyAccountId: perscription.proxyAccountId,
+            cron: perscription.cron,
+            active: perscription.active,
+            // NOTE: metadata can't be empty string
+            metadata: perscription.metadata || 'string',
+        }
     }
 
 

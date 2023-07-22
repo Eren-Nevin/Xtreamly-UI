@@ -16,6 +16,8 @@ export const load = (async ({ params }) => {
         goto('/login');
         console.log('Not Authenticated');
         return;
+    } else {
+        console.log(backendHandler.authToken);
     }
 
     const currentMyProxyAccounts = await backendHandler.getProxyAccounts(100);

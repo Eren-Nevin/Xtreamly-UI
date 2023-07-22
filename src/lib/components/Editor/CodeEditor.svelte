@@ -9,12 +9,13 @@
 	import 'brace/theme/github';
     import 'brace/ext/language_tools';
     import 'brace/snippets/lua'
-	let text = '';
+	export let text = '';
 
     let editorOptions = {
         enableBasicAutocompletion: true,
         enableLiveAutocompletion: true,
     }
+
 </script>
 
 <AceEditor
@@ -35,6 +36,6 @@
 	height="640"
 	lang="lua"
 	theme="gruvbox"
-	value={text}
+	bind:value={text}
     options={editorOptions}
 />

@@ -56,13 +56,10 @@
 				<span class="text-lg"> {selectedApp.name} </span>
 				<span class="text-xs font-light text-gray-400"> {selectedApp.shortDescription} </span>
 				<div class="flex flex-row mt-auto w-full">
-					<!-- <button class="btn btn-xs w-16 btn-primary rounded-2xl" on:click={async () => { -->
-					<!---->
-					<!--                }}> Get </button> -->
-					<button class="btn btn-xs w-16 btn-primary rounded-2xl" onclick="my_modal_2.showModal()"
+					<button class="btn btn-xs w-16 btn-primary rounded-2xl" onclick="install_applet_modal.showModal()"
 						>Get it</button
 					>
-					<dialog id="my_modal_2" class="modal">
+					<dialog id="install_applet_modal" class="modal">
 						<form method="dialog" class="modal-box">
 							<h3 class="font-bold text-lg">Install</h3>
 							<!-- Replace this with dropdown -->
@@ -70,8 +67,7 @@
 								<select
 									class="select select-secondary w-full max-w-xs"
 									on:change|preventDefault={(e) => {
-										// console.log(e.target.value);
-                                        selectedProxyIdInInstallModal = e.target.value;
+										selectedProxyIdInInstallModal = e.target.value;
 									}}
 								>
 									<option disabled selected>Pick proxy account</option>
@@ -89,7 +85,12 @@
 							<button
 								class="btn btn-sm btn-primary"
 								on:click={async () => {
-									await installApplet(backendHandler, selectedApp.uid, selectedProxyIdInInstallModal, inputCronString);
+									await installApplet(
+										backendHandler,
+										selectedApp.uid,
+										selectedProxyIdInInstallModal,
+										inputCronString
+									);
 								}}>Install</button
 							>
 						</form>

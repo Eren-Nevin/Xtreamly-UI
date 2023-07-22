@@ -1,24 +1,34 @@
 <script lang="ts">
 	import CodeEditor from '$lib/components/Editor/CodeEditor.svelte';
+
+	let code = '';
 </script>
 
 <div class="w-full flex flex-col items-center justify-center">
 	<div class="w-9/12 border border-gray-400 rounded-xl p-9">
-		<CodeEditor />
-		<div class="flex flex-row justify-end my-2">
-			<button class="btn btn-primary btn-sm"> Install </button>
+		<CodeEditor bind:text={code} />
+		<div class="flex flex-row justify-end my-2 gap-2">
+			<button
+				class="btn btn-primary btn-sm"
+				on:click={() => {
+					code = '';
+					window.postMessage(code, 'http://localhost:3001/control');
+                    window.close()
+				}}
+			>
+				Cancel
+			</button>
+			<button
+				class="btn btn-primary btn-sm"
+				on:click={() => {
+					console.log(code);
+					window.postMessage(code, 'http://localhost:3001/control');
+                    window.close()
+				}}
+			>
+				Save
+			</button>
 		</div>
 	</div>
 
-	<!-- <button -->
-	<!-- 	class="h-6 text-blue-700 text-sm ms-auto font-light normal-case p-0" -->
-	<!-- 	onclick="my_modal_3.showModal()">Show Code</button -->
-	<!-- > -->
-	<!-- <dialog id="my_modal_3" class="modal"> -->
-	<!-- 	<form method="dialog" class="modal-box"> -->
-	<!-- 		<button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4">✕</button> -->
-	<!-- 		<h3 class="font-bold text-lg">Code</h3> -->
-	<!-- 		<CodeEditor /> -->
-	<!-- 	</form> -->
-	<!-- </dialog> -->
 </div>
